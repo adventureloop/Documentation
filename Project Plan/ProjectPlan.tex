@@ -1,0 +1,120 @@
+\documentclass[a4paper,12pt,notitlepage]{article}
+
+\usepackage{pgfgantt}
+
+\usepackage[cm]{fullpage}
+\setlength{\parindent}{0pt} 
+
+\begin{document}
+
+\title{Project Plan}
+\author{Tom Jones\\u04tj8}
+\maketitle
+
+\section{Introduction}
+Generated content is the corner stone of long lifed games. Wether procedurally or
+user generated the ability for the game to be different everytime makes players 
+want to return again and again.
+
+By using generated worlds, we can present to the player an entire new world to 
+explore and adventure in each time. Since the earliest days of computer gaming
+generated worlds have been used, nethack \cite{nethack}
+is one of the longest running software
+projects ever, and the idea of generated worlds continues today in games like 
+minecraft \cite{minecraft} and dwarf fortress \cite{dwarffortress}.\\
+
+\noindent
+In my final year project I want to explore the area of generated worlds, with a 
+focus around generating interesting and appealing landscapes.
+
+
+\section{Goals}
+
+
+\section{Methodology}
+This project will mostly be an exploratory programming exercise. The final 
+project will be an on the fly generated demo of the world. Something similar to
+a flight simulator will be the final product.\\
+
+An issue and milstone tracking tool will be used during development and the major
+milestones roughly in order are, Basic Rendering then Generation, Advanced 
+Rendering and Generation. There are many sub components within these which are
+exposed in the timeline.
+
+\section{Required Resources}
+For my project I am planning to use the objective c programming language and the
+OpenGl ES api for interacting with graphics hardware. The best setup for 
+development would be an Apple computer running Mac OS X (10.7) and the xcode 
+development environment. A graphics card capable of handling modest tasks is also
+required. 
+
+\section{Risk Assessment}
+\subsection*{Risk: Project Runs over}
+This project is not an all or nothing situation. If time allocations are not
+sufficent to complete all goals or if the author becomes bogged down, it will
+be possible to still produce interesting results.\\
+
+To ensure the output at the end of the project is at the highest standard, it has
+been structured in a way that allows the project to always be in a 'good' state.
+
+\subsection*{Risk: Project encounters technical limitations}
+Due to the nature of the project it is likely that some sort of technological 
+bottle neck is reached. To alieviate this the project will have a modular 
+structure to make it as simple as possible to evaluate components.
+
+\section{Timetable}
+
+\begin{ganttchart}[vgrid, hgrid, time slot modifier=0,x unit=0.8cm]{15}
+	\gantttitle{Project Plan}{15} \\
+	
+	\gantttitle{Jan}{1} 
+	\gantttitle{Feb}{3} 
+	\gantttitle{Mar}{4} 
+	\gantttitle{Apr}{5} 
+	\gantttitle{May}{2} \\
+
+	\ganttbar[bar/.style={fill=green!50},
+			bar label font={\small\MakeUppercase}]
+					{Basic Rendering}{0}{4} \\
+	\ganttbar[bar/.style={fill=red!50},
+			bar label font={\small\MakeUppercase}]
+					{Data Structures}{1}{3} \\
+	\ganttbar[bar/.style={fill=blue!50},
+			bar label font={\small\MakeUppercase}]
+					{Basic Generation}{2}{7} \\
+	\ganttbar[bar/.style={fill=yellow!50},
+			bar label font={\small\MakeUppercase}]
+					{Data Management}{0.5}{1.5} \\
+	\ganttbar[bar/.style={fill=green!50},
+			bar label font={\small\MakeUppercase}]
+					{Advanced Rendering}{7}{11} \\
+	\ganttbar[bar/.style={fill=blue!50},
+			bar label font={\small\MakeUppercase}]
+					{Advanced Generation}{10}{13} \\
+\end{ganttchart}
+
+
+\section{References}
+\begin{thebibliography}{9}
+
+
+\bibitem{nethack}
+  Leslie Lamport,
+  \emph{\LaTeX: A Document Preparation System}.
+  Addison Wesley, Massachusetts,
+  2nd Edition,
+  1994.
+\bibitem{minecraft}
+  Leslie Lamport,
+  \emph{\LaTeX: A Document Preparation System}.
+  Addison Wesley, Massachusetts,
+  2nd Edition,
+  1994.
+\bibitem{dwarffortress}
+  Leslie Lamport,
+  \emph{\LaTeX: A Document Preparation System}.
+  Addison Wesley, Massachusetts,
+  2nd Edition,
+  1994.
+\end{thebibliography}
+\end{document}
