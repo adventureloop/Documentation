@@ -1,9 +1,24 @@
 \documentclass[a4paper,12pt]{report}
 
+\usepackage{fontspec}
+
+\setmainfont{Canterell}
+
+%\usepackage[a4paper]{geometry}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
 \setlength{\parindent}{0pt}
 
 \begin{document}
 
 \include{TitlePage}
+
+\include{Abstract}
+\include{Acknowledgements}
+\tableofcontents
+
 \include{Introduction/IntroductionChapter}
+\include{Background/BackgroundChapter}
 \end{document}
