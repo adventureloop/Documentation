@@ -1,15 +1,26 @@
 \documentclass[a4paper,12pt]{report}
 
-\usepackage{fontspec}
-
-\setmainfont{Canterell}
-
-%\usepackage[a4paper]{geometry}
+\usepackage{fancyhdr}
 \usepackage{fullpage}
 \usepackage{graphicx}
 \usepackage{hyperref}
 
 \setlength{\parindent}{0pt}
+
+%Use the xetex font system along with system fonts
+\usepackage{fontspec}
+\usepackage{titlesec}
+
+\setmainfont{Helvetica}
+
+%Dont use fontspec directly instead create a new font
+\newfontfamily\sectionfont{Futura}
+
+%Set the section level fonts
+\titleformat*{\section}{\Large\sectionfont}
+\titleformat*{\subsection}{\large\sectionfont}
+\titleformat*{\subsubsection}{\sectionfont}
+
 
 \begin{document}
 
