@@ -4,6 +4,7 @@
 \usepackage{fullpage}
 \usepackage{graphicx}
 \usepackage{hyperref}
+\usepackage{color}
 
 \setlength{\parindent}{0pt}
 
@@ -11,7 +12,7 @@
 \usepackage{fontspec}
 \usepackage{titlesec}
 
-\setmainfont{Helvetica}
+\setmainfont{Cantarell}
 
 %Dont use fontspec directly instead create a new font
 \newfontfamily\sectionfont{Futura}
@@ -20,6 +21,37 @@
 \titleformat*{\section}{\Large\sectionfont}
 \titleformat*{\subsection}{\large\sectionfont}
 \titleformat*{\subsubsection}{\sectionfont}
+
+%Configure source listing style
+\usepackage{listings}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+  	language=C,               % the language of the code
+ 	basicstyle=\footnotesize,  % the size of the fonts
+	numbers=left,            % where to put the line-numbers
+	numberstyle=\tiny\color{gray},  % the style that  for the line-numbers
+	stepnumber=1,
+	numbersep=5pt,                  % how far the line-numbers are from the code
+	backgroundcolor=\color{white},      % choose the background color.
+	showspaces=false,               % show spaces adding particular underscores
+	showstringspaces=false,         % underline spaces within strings
+	frame=single,                   % adds a frame around the code
+	rulecolor=\color{black},        % e))
+	tabsize=2,                      % sets default tabsize to 2 spaces
+	captionpos=b,                   % sets the caption-position to bottom
+	breaklines=true,                % sets automatic line breaking
+ 	breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+    title=\lstname,                %
+	keywordstyle=\color{blue},     % keyword style
+	commentstyle=\color{dkgreen},  % comment style
+	stringstyle=\color{mauve},     % string literal style
+	escapeinside={\%*}{*)},        % if you want to add a comment in your code
+	 morekeywords={*,...}               % if you want to add more keywords 
+}
 
 
 \begin{document}
