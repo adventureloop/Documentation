@@ -1,6 +1,5 @@
 \documentclass[a4paper,12pt]{report}
 
-\usepackage{fancyhdr}
 \usepackage{fullpage}
 \usepackage{graphicx}
 \usepackage{hyperref}
@@ -25,13 +24,15 @@
 %Configure source listing style
 \usepackage{listings}
 
+\newfontfamily\codefont{Droid Sans Mono}
+
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 
 \lstset{ %
   	language=C,               % the language of the code
- 	basicstyle=\footnotesize,  % the size of the fonts
+ 	basicstyle=\footnotesize\codefont,  % the size of the fonts
 	numbers=left,            % where to put the line-numbers
 	numberstyle=\tiny\color{gray},  % the style that  for the line-numbers
 	stepnumber=1,
@@ -53,6 +54,14 @@
 	 morekeywords={*,...}               % if you want to add more keywords 
 }
 
+
+%Configure page footers
+\usepackage{fancyhdr}
+%\pagestyle{fancy} 
+\fancyhead{} % Clear all header fields 
+\fancyfoot{} %Clear footer fields
+\fancyfoot[RE,RO]{\thepage}
+%\fancyfoot[L]{\includegraphics{Images/FooterIsland.png}}% 
 
 \begin{document}
 
