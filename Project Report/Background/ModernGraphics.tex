@@ -1,0 +1,121 @@
+\section{Modern Graphics}
+
+Discrete graphics hardware has existed since the move from printed output to 
+teletyped displays. There has been a long history of development in hardware and
+for a long time evey increasing graphics speeds led the entire tech industry.\\
+
+\subsection{OpenGL Overview} 
+Opengl is a software interface to graphics hardware, it is defined as a hardware
+independant specification and is implemented by all major hardware vendors.
+Using opengl allows a platform independant and consistent access to acelerated 
+graphics functions and is packaged with almost every os produced today.\\
+
+Opengl does not provide any facility to interact with windows, the keyboard or a 
+mouse, instead this needs to be provided by the host OS. All opengl requires is 
+a context created by the OS and opengl rendering calls can be used, with a few 
+exceptions these calls are the same across all platforms.\\
+
+\subsubsection*{Drawing}
+
+An image on a screen or in a printed document is built up from a grid of picture
+elements (pixels). The purpose of a graphics system of any kind is to define the
+final colour that ends up in these pixels. A simple 2d image is a direct mapping
+to the final screen colour, but a complex 3d scene will go through a number of 
+filters before its final colour can be decided. \\
+
+Graphics systems rely on a large amount of fakery to produce realistic final 
+scenes, every object defined is made up of a series of triangles. Spheres and
+balls are created this way and images are mapped onto these triangles. Graphics
+hardware uses a process call rasterisation to transition from these triangle 
+definitions to the final pixels on the screen.\\
+
+\subsection{Rendering Pipeline}
+
+The \emph{Vertex} is the basic unit for definition in OpenGL, verticies are used
+to define triangle meshes or geometries. A vertex is a point in 3D space, but it
+can also have other properities defined for it such as colour or surface normal.
+OpenGL uses a rendering pipeline, taking each vertex in turn and processing it 
+until a final pixel colour can be defined. \\
+
+\begin{description}
+\item[Clip Space Transfromation] The first phase of the rasterisation process
+is transformation of vertices into clip space. Clip space defines a region in 
+space, anything inside of which will be rendered, anything outside of this space
+will be disguared. Objects that lie across this boundary will have their surface
+broken down into small triangles until all of which lie within clip space, hence
+clipping. Positions in clip space have an additional W position, this defines the
+extent of clip space for the coordinate in the [-W,W] range.
+The operations in clip space can be quite arbitary as the programmer 
+has a lot of control over how the clip transformation operates.
+
+\item[Normalised Device Coordinates] The Normalised Device Coordinate space is 
+used to make visualising triangles much simplier. It is effectivly the same as 
+Clip space, but each coordinated lies within the [-1,1] range. The division is 
+part of the projection from 3D shapes to 2D colours.
+\item[Window Transformation] Window coordinated are converted to from normalised
+device coordinates. In this space each coordinate is relative to the window that
+we are rendering into, these coorinates are still 3D and have float point 
+precision, window coordinates are not pixel mappings.
+\item[Scan Converstion] Scan Conversion takes each triangle as described in 
+window coordinated and maps it to pixels that are covered by its shape. Scan 
+conversion will create a \emph{fragment} for each pixel sample that is within
+the triangles shape.
+\item[Fragment Processing] Fragment processing is the phase where each fragment 
+is given one of more colours and has as depth value applied agasint it. This 
+phase can also be qute arbitary as the programmer is given access to the pipeline
+as this stage.
+\item[Fragment Writing] The phase of the rasterisation pipeline is to write the 
+coloured fragment to the display.
+\end{description}
+
+\subsection{Shaders}
+Shaders are programs that are designed to run within the rendering pipeline, they
+are small programs that hook into the the pipeline and allow custom algoritms to
+create arbitary effects. Shader programs in OpenGL are executed on the GPU 
+freeing up CPU processing and the positions they can hook are designed for the
+greatest utility for the programmer. Shaders allow for programs that would be 
+impossibly intesive on a CPU system, but suffer limitations that would not be 
+present in such a system.
+OpenGl opens up two stages of the rendering
+pipeline to user specified shaders, the transformation of a vertex into clip 
+space with a \emph{Vertex Shader} and the processing of fragment into a final
+colour in a \emph{Fragment Shader}.\\
+
+There are a number of ways to write programs for these stages in the rendering
+pipeline, OpenGL provides the Graphics Library Shading Language(GLSL). GLSL is 
+a C like language with extensions for interacting with the vectorised graphics
+hardware. Shader programs also have access to builtin variables for output and
+input, and user defined variables covering all types of vertex input along with
+programmer defined variables. Graphics processors are highly vectorised and GLSL
+has builtin vector and matrix types to simplify writing programs.\\
+
+GLSL programs follow the C style program model, but vertex and fragment shaders 
+run around a main function with the possiblity to define further functions. The 
+following two programs illustrate the general syntax of vertex and fragment 
+shaders.\\
+
+\lstinputlisting{src/example.vsh}
+
+\lstinputlisting{src/example.fsh}
+
+Shader programs are compiled and linked at run time, this allows shaders to be 
+portable across all types of graphics cards.\\
+
+\subsection{Providing Data to opengl}
+OpenGL takes data in the form of vertices, in the days before the programmable 
+pipeline it was possible to use an immediate mode. Immediate mode has the 
+advantage of being very easy to descibe and use, but it is very slow and burdens
+the GPU with thousands of OpenGL function calls a second, in even moderate 
+programs. The optimal method to provide data to OpenGL is using \emph{Vertex
+Arrays}, arrays which contain the data for each vertex.\\
+
+Vertex array image.\\
+
+Vertexes often need more data than the pure geometry of the mesh to be drawn, it
+is often useful to specify colours and surface normals for the vertex. This meta
+data needs to be matched inline with the vertex data, OpenGL provides mechanisms
+for providing data inside interweived vertex arrays, arrays which contain the 
+vertex, then the colour, then the normal. These can then be treated as a single
+unit.\\
+
+Interweived Vertex array image it will be awesome\\
