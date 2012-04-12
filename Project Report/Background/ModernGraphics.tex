@@ -102,6 +102,11 @@ Shader programs are compiled and linked at run time, this allows shaders to be
 portable across all types of graphics cards.\\
 
 \subsection{Providing Data to opengl}
+OpenGL has a very simple library structure for something so powerful, as a C 
+library it is accessed through method calls that follow a simple structure.\\
+
+\lstinputlisting{src/fixedfunctionexample.c}
+
 OpenGL takes data in the form of vertices, in the days before the programmable 
 pipeline it was possible to use an immediate mode. Immediate mode has the 
 advantage of being very easy to descibe and use, but it is very slow and burdens
@@ -118,4 +123,6 @@ for providing data inside interweived vertex arrays, arrays which contain the
 vertex, then the colour, then the normal. These can then be treated as a single
 unit.\\
 
-Interweived Vertex array image it will be awesome\\
+\lstinputlisting{src/progamablepipelineexample.c}
+
+Interweived Vertex array image it iwill be awesome\\
