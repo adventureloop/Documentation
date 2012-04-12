@@ -1,5 +1,4 @@
 \section{Modern Graphics}
-
 Discrete graphics hardware has existed since the move from printed output to 
 teletyped displays. There has been a long history of development in hardware and
 for a long time evey increasing graphics speeds led the entire tech industry.\\
@@ -10,13 +9,16 @@ independant specification and is implemented by all major hardware vendors.
 Using opengl allows a platform independant and consistent access to acelerated 
 graphics functions and is packaged with almost every os produced today.\\
 
+OpenGL implements a state machine which is update via function calls in a user
+program. OpenGL's statefulness allows much less complicated drawing models and
+effient programming. \\
+
 Opengl does not provide any facility to interact with windows, the keyboard or a 
 mouse, instead this needs to be provided by the host OS. All opengl requires is 
 a context created by the OS and opengl rendering calls can be used, with a few 
 exceptions these calls are the same across all platforms.\\
 
 \subsubsection*{Drawing}
-
 An image on a screen or in a printed document is built up from a grid of picture
 elements (pixels). The purpose of a graphics system of any kind is to define the
 final colour that ends up in these pixels. A simple 2d image is a direct mapping
@@ -30,7 +32,6 @@ hardware uses a process call rasterisation to transition from these triangle
 definitions to the final pixels on the screen.\\
 
 \subsection{Rendering Pipeline}
-
 The \emph{Vertex} is the basic unit for definition in OpenGL, verticies are used
 to define triangle meshes or geometries. A vertex is a point in 3D space, but it
 can also have other properities defined for it such as colour or surface normal.
@@ -101,28 +102,59 @@ shaders.\\
 Shader programs are compiled and linked at run time, this allows shaders to be 
 portable across all types of graphics cards.\\
 
-\subsection{Providing Data to opengl}
-OpenGL has a very simple library structure for something so powerful, as a C 
-library it is accessed through method calls that follow a simple structure.\\
+\subsection{Programing with OpenGL}
+OpenGL is a C based API which uses C function calls to access functionality on 
+the graphics processor. The API is implemented as a collection of \#define'd 
+constants, types and methods, all prefixed with GL 
+(GLShort,GL\_DEPTH\_BUFFER\_BIT,glColor3f). OpenGL owns storage for all objects
+used in the rendering, user programs have to request access to buffers and offer
+memory regions to be used. Due to OpenGL's stateful nature contexts can be used 
+in programs to make segmenting up drawing easier, an entity can configure it's 
+drawing space, then save this in a context, stopping interferance from other 
+entities drawing. \\
 
-\lstinputlisting{src/fixedfunctionexample.c}
+OpenGL is a simple API to a very complex underlying state machine, the API is 
+very tolerant and provides a lot of the configuration for a global context by 
+default. More complex programs need to do more work setting up, but allow the
+programmer to create very powerful compartmentalised code that can be reused in 
+many situations.\\
 
-OpenGL takes data in the form of vertices, in the days before the programmable 
-pipeline it was possible to use an immediate mode. Immediate mode has the 
-advantage of being very easy to descibe and use, but it is very slow and burdens
-the GPU with thousands of OpenGL function calls a second, in even moderate 
-programs. The optimal method to provide data to OpenGL is using \emph{Vertex
-Arrays}, arrays which contain the data for each vertex.\\
+Before any drawing can be done, an OpenGL context has to be received from the OS
+and the program needs to go through the process of loading and compiling the 
+shader programs. For our example these are both abstracted away into functions as
+they can be very OS dependant.  \\
 
-Vertex array image.\\
+\begin{description}
+\item[Vertex Array Object] The first OpenGL based configurations is the 
+creation of the buffer context and the allocation of memory on the graphics card
+to be used. A vertex array object is used to store the locations of attributes 
+and drawing related state, the location of the array data is also stored with
+this object.
+\item[Vertex Buffer Object]
+To provide data to OpenGL a Vertex Buffer Object needs to be created
+and assigned to the VAO, the VBO stores where in system memory the vertex data 
+is. 
+\item[Attribute Binding]
+Once the VBO is aligned the program needs to bind the attributes it is going
+to provide to the shader program, these are specified by an index given by their
+order of definition inside the shader program.
+\item[Attribute Pointer Assignment]
+Finally the access types of the 
+vertex data need to be configured, this is done by setting the attribute 
+pointer. 
+\end{description}
 
-Vertexes often need more data than the pure geometry of the mesh to be drawn, it
-is often useful to specify colours and surface normals for the vertex. This meta
-data needs to be matched inline with the vertex data, OpenGL provides mechanisms
-for providing data inside interweived vertex arrays, arrays which contain the 
-vertex, then the colour, then the normal. These can then be treated as a single
-unit.\\
+\begin{center}
+\includegraphics[width=5cm]{Images/VertexArrays.png}
+\end{center}
+
+Vertex data can be packed as an individual array, or stored in an interwieved 
+vertex array. This way all of the meta data about the vertex is stored in line 
+relative to the vertex itself. This method allows a reduction in the number of 
+memory buffers and simplifies specification of information. The 
+glVertexAttribPointer function call makes this easy by providing a step value and
+an initial offset value for memory locations. These are passed in the final two
+parameters to the function call respectivly.\\
 
 \lstinputlisting{src/progamablepipelineexample.c}
 
-Interweived Vertex array image it iwill be awesome\\

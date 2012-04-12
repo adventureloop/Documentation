@@ -1,4 +1,75 @@
-\section{Randomness Based Generation}
+\section{Generation Techniques}
 
-What do we mean by generation in this context? how are we going to do this? To 
-what extent?
+\subsection{Simulated Generation}
+By simulating the world we can generate stuff
+
+
+\subsection{Random Generation}
+Taking values from a random or pseudo random number generate is a common 
+technique to provide a random element within a system. Random Values can lead to
+systems with a high level of entropy and there are a number of algorithms and 
+techniques that take advantage of this method to create terrain simulations. Such
+techniques are the main mechanic in the game Nethack, used to generate winding
+dungeons that are different very time.\\
+
+\subsubsection*{Mid Point Displacement}
+The midpoint displacement algorithm works around raising relative levels around a
+point, an offset grid is the best medium for this to work in. This leads to noisy
+variation, it can be good for providing variaton in a flat or rolling landscape.\\
+
+MDP IMAGE\\
+
+MDP works around picking a random point within the offset grid and increasing its
+height slightly compared to those around. This can be done in a large number of 
+interations and the height variance can be altered with each, the final product 
+being very noisy. Every cycle of this algoritms has a large cost and it is very
+difficult to simualte edge conditions for unloaded chunks. MPD can be effect, but
+expensive to run in increasing generations.\\
+
+MDP RESULT IMAGE\\
+
+\subsubsection*{Fault Algorithm}
+The fault algorithm can implement either comparative raising or both raising and
+lowering or height levels. Terrain generated with fault algorithms can be 
+inherentyl smoother than MDP, yet takes a large number of generations to produce
+interesting terrain.\\
+
+FAULT IMAGE\\
+
+The Fault algoritm works on a 2D grid, a line( or fault) is then drawn across the
+grid, heights on either side of this line are raised and lowered respectivly.
+Smoothing can be added to improve the quality of the faulting, a sigmoidal 
+function produces quite a realistic value. The Fault algorithm shares the same
+draw backs as the MDP algorithm.\\
+
+FAULT RESULT IMAGE\\
+
+\subsection{Noise Based Generation}
+During the development of the ground breaking CGI film Tron, Ken Perlin found 
+that the generated scenes in the film were too 'clean', they need a form of noise
+applied to them to appear more life like and not purely computer generated. 
+Perlin Noise was created to alieviate that problem, A multidimensional functions
+that provides a value in the [-1,1] range for a give position ( (x,y) in 2D 
+noise). Perline Noise has proven to be very use in creating realistic blended 
+textures and can be used to generate height maps for realistic terrain and is a 
+commonly used technique to this day for improving the realism of a rendered or
+generated world.\\
+
+\subsubsection*{Perlin Noise}
+The basic idea around Noise generation is to take values at a given interval from
+a psuedorandom number generator, and interpolate between the two, effectivly 
+smoothing between the generated intervals. Perlin Noise can be generated in any
+dimension, but for this document we will use 1D noise as an example and 2 and 
+3 dimensional noise for generation. This document uses the original C function
+libraries written by Ken Perlin for his noise generation.\\ 
+
+\begin{lstlisting}
+double PerlinNoise1D(double x,double alpha,double beta,int n);
+double PerlinNoise2D(double x,double y,double alpha,double beta,int n);
+double PerlinNoise3D(double x,double y,double z,double a,double b,int n);
+\end{lstlisting}
+
+For the above dimensions it can be seen that the noise function takes in the 
+position for the desired value, in the number of dimensions. N is usually given
+in the 6 to 10 range. The alpha value effects how noisy the final values are,with
+1 being the noisest and increasing values producing smoother functions.\\
