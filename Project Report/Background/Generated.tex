@@ -73,3 +73,39 @@ For the above dimensions it can be seen that the noise function takes in the
 position for the desired value, in the number of dimensions. N is usually given
 in the 6 to 10 range. The alpha value effects how noisy the final values are,with
 1 being the noisest and increasing values producing smoother functions.\\
+
+1D NOISE IMAGES\\
+
+
+\subsection{Conclusion}
+The desired properties of the final generation system are the best criteria to
+evaluate the possible approached. We aim to create a system that can generate
+the terrain under the users position on the fly, this generation needs to be
+reproducable despite the order in which the user interacts with the world. Most
+of all the approach used needs to be a fast as possible to avoid locking up of
+the system.\\
+
+\begin{description}
+\item[Simulation]
+Simulated worlds can create highly realistic
+and expansive terrain, but it suffers on speed, taking a long time to create a 
+world. This speed factor rules out the possibility for use in an on the fly 
+generated world such as we are aiming to create. 
+
+\item[Random Generation] Random Generation, has 
+interesting qualities, but is slow to create interesting worlds and it best
+suited to fixed sizes. It is possible to use an overall general map, but 
+difficult to reproduce out of ordered generations which we are likely to
+experience. 
+
+\item[Perlin Noise] Noise based generation is fast, atleast compared to the other
+methods, and is entirely reproducable from any state. These two qualities make it
+perfect for our requirements. Noise can also be used on multiple dimensions, 
+allowing height maps to be generated as well as 3D density maps leading to very
+interesting realistic worlds.
+\end{description}
+
+Considering our requirements noised based generation is the best overall 
+approach,
+but as more complex worlds are create inspiraion will come from other 
+techniques.\\

@@ -1,1 +1,1 @@
-texcount -total -col -nosub *tex Background/*tex Introduction/*tex GenerationSystems/*tex Design/*tex Conclusions/*tex
+texcount -total -col -nosub *tex Background/*tex Introduction/*tex Implementation/*tex Design/*tex Conclusions/*tex
