@@ -1,43 +1,82 @@
 \section{Modern Graphics}
-Discrete graphics hardware has existed since the move from printed output to 
-teletyped displays. There has been a long history of development in hardware and
-for a long time evey increasing graphics speeds led the entire tech industry.\\
+Dedicated hardware has been used for the creation of computer output since the
+move away from blinking lights to indicate machine state. Graphics hardware has
+been at the fore front of pushing computer power since the first 3D graphics 
+cards started to appear in the early 90s and today graphics hardware still push
+the limit of hardware even down into the mobile space.\\
+
+Dedicated graphics hardware has allowed for a move from using the CPU of a 
+computer to handle complex geometry tasks and as this has happened game designers
+and developers have asked for more and more from the graphics chipset
+manufacturers. The latest graphics cards are now more generalised vector 
+processors that can be applied to many different data calculation intensive tasks
+including the creation of complex, interesting and realistic 3D graphics.\\
 
 \subsection{OpenGL Overview} 
-Opengl is a software interface to graphics hardware, it is defined as a hardware
-independant specification and is implemented by all major hardware vendors.
-Using opengl allows a platform independant and consistent access to acelerated 
-graphics functions and is packaged with almost every os produced today.\\
+Access to graphics needs to be mitigated through the use of libraries, these 
+libraries have grown up with the graphics cards and together have pushed the 
+limits of the hardware. Two competing standards have developed over time, Direct
+3D from microsoft and the OpenGL specification for the ARB group. Direct 3D is 
+limited to run only on microsoft platforms such as window and the xbox console,
+but OpenGL is a standard that can be and is implemented everywhere. Due to this
+Direct 3D has been discounted as an option for this project and instead OpenGL
+has been investigated.\\
 
-OpenGL implements a state machine which is update via function calls in a user
-program. OpenGL's statefulness allows much less complicated drawing models and
-effient programming. \\
+OpenGL is a specification for how graphics systems should operate, but also 
+defines a software interface that should be implemented to control the operation
+of the graphics hardware. As a specification a lot of the under lying 
+implementation of the graphics system is left to the manufacturer, instead 
+OpenGL defines the outputs that should appear from given inputs to the system,
+the rest is a black box.\\
 
-Opengl does not provide any facility to interact with windows, the keyboard or a 
-mouse, instead this needs to be provided by the host OS. All opengl requires is 
-a context created by the OS and opengl rendering calls can be used, with a few 
-exceptions these calls are the same across all platforms.\\
+OpenGL's functionality is based around a state machine, this machine needs to be
+configured by the program for each drawing call, but will preserve this state 
+unless otherwise changed. For drawing OpenGL is a very powerful rasteriser, its
+main opertaion being the processing of triangles in the form of vertices into
+pixels on a final display. \\
+
+OpenGL is only really a description of the interface with the hardware, for 
+practical use the operating system must provide the window in which the final
+display will appear. This allows the opengl commands to be platform agnostic, 
+letting windowing functionality come from the OS itself.\\
 
 \subsubsection*{Drawing}
-An image on a screen or in a printed document is built up from a grid of picture
-elements (pixels). The purpose of a graphics system of any kind is to define the
-final colour that ends up in these pixels. A simple 2d image is a direct mapping
-to the final screen colour, but a complex 3d scene will go through a number of 
-filters before its final colour can be decided. \\
+A computer screen is a grid of squares called pixels(picture elements), each
+pixel contains red green and blue lights and these are combined to create a 
+colour in each pixel. 
 
-Graphics systems rely on a large amount of fakery to produce realistic final 
-scenes, every object defined is made up of a series of triangles. Spheres and
-balls are created this way and images are mapped onto these triangles. Graphics
-hardware uses a process call rasterisation to transition from these triangle 
-definitions to the final pixels on the screen.\\
+A vector graphic is an image that is made up from mathematic formulae describing
+the lines and colours in the image instead of the pixel data. Vector graphics
+have the nice property that they will scall infinitely, you wont see any 
+artifacts or large pixels when you zoom. Vector graphics are also easy to define
+and very low on memory. Rasterisation is the process of converting a vector 
+graphic into pixels that will be displayed on a screen. Graphics cards are 
+pieces of hardware call raterisers that are specifically designed to stream line
+this process of moving from a vector description of an image to final pixel 
+values on the screen.\\
+
+To build up realistic models using vector art graphics systems rely on a large
+amount of fakery. OpenGL uses the triangle as its most primitive shape, these
+triangles are then combined to create very complex shapes in what are called 
+meshes. Any complex shape can be made from a number of triangles, the greater the
+desired precision the more triangles are required.\\
 
 \subsection{Rendering Pipeline}
-The \emph{Vertex} is the basic unit for definition in OpenGL, verticies are used
-to define triangle meshes or geometries. A vertex is a point in 3D space, but it
-can also have other properities defined for it such as colour or surface normal.
-OpenGL uses a rendering pipeline, taking each vertex in turn and processing it 
-until a final pixel colour can be defined. \\
+\subsubsection{Triangles and Verticies}
+OpenGL is the interface to the hardware rasteriser, A Vertex is the most 
+primitive type that opengl can operate with. Each Vertex will describe its 
+position in space and may include meta data about itself, like colour 
+information. OpenGL has a number of different ways it can use vertex data, but 
+the most common is to take vertices three at a time and use them to create 
+triangles.\\
 
+Once the vertex data for all the triangles in a mesh have been passed to OpenGL,
+the information will be processed through the rasterisation pipeline. This 
+pipeline has several discrete stages, each of which transforms the vertex data 
+in some way until the final stage is reached and a colour can be decided for the
+pixels in the window.\\
+
+The rough stages for the rasterisation pipeline are:
 \begin{description}
 \item[Clip Space Transfromation] The first phase of the rasterisation process
 is transformation of vertices into clip space. Clip space defines a region in 
@@ -70,32 +109,39 @@ coloured fragment to the display.
 \end{description}
 
 \subsection{Shaders}
-Shaders are programs that are designed to run within the rendering pipeline, they
-are small programs that hook into the the pipeline and allow custom algoritms to
-create arbitary effects. Shader programs in OpenGL are executed on the GPU 
-freeing up CPU processing and the positions they can hook are designed for the
-greatest utility for the programmer. Shaders allow for programs that would be 
-impossibly intesive on a CPU system, but suffer limitations that would not be 
-present in such a system.
-OpenGl opens up two stages of the rendering
-pipeline to user specified shaders, the transformation of a vertex into clip 
-space with a \emph{Vertex Shader} and the processing of fragment into a final
-colour in a \emph{Fragment Shader}.\\
+There are two points in the rasterisation pipeline that have hooks allow 
+customisation from the programmer. The first is during clip space transformation
+and the second is during Fragment Processing. To access the rasteriation pipeline
+small programs called shaders are used, these programs have hooks to access the
+vertex data in the case of vertex shaders and access to the fragments created in
+the case of the fragment shader.\\
 
-There are a number of ways to write programs for these stages in the rendering
-pipeline, OpenGL provides the Graphics Library Shading Language(GLSL). GLSL is 
-a C like language with extensions for interacting with the vectorised graphics
-hardware. Shader programs also have access to builtin variables for output and
-input, and user defined variables covering all types of vertex input along with
-programmer defined variables. Graphics processors are highly vectorised and GLSL
-has builtin vector and matrix types to simplify writing programs.\\
-
-GLSL programs follow the C style program model, but vertex and fragment shaders 
-run around a main function with the possiblity to define further functions. The 
-following two programs illustrate the general syntax of vertex and fragment 
-shaders.\\
+OpenGL provides a simple C like language called GLSL(Graphics Library Shading 
+Language), GLSL contains extensions that make writing programs that use vectors
+and matrices very easy. Builtin variables are also provided to allow easier
+implementation of shader programs. \\
 
 \lstinputlisting{src/example.vsh}
+
+Inside the vertex shader variable called attributes can be defined that directly
+link to the vertex data provided by OpenGL. These variables are declared by 
+placing the attribute specifier before the variable in the global block. Finally
+uniforms variables can be passed to the shader programs, these values are the 
+same for each rendering call, but can be changed between render calls.\\
+
+Vertex shaders are used from geometric placement of vertices and similar tasks
+that would involve a lot of processing on the cpu. These are be highly 
+parrallelised on the GPU allows for more complex placement than was previously
+possible. The vertex shader is also responsible for transforming vertices into
+a view frustum, the visible view area. The vertex shader with also controll 
+modelling and camera transformations and can be used in simple vertex based forms
+of lighting.\\
+
+The fragment shader is much more limited in its scope, it only has access to the
+final fragments before they are written and any used specified uniforms. Despite
+this the fragment shader is resposible for high resolution effects like fog and
+many realistic forms of lighiting rely on the precision that is only available
+within the fragment shader\\
 
 \lstinputlisting{src/example.fsh}
 
