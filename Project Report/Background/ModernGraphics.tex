@@ -152,26 +152,32 @@ This allows our shader programs to run on almost any platform without many
 changes.\\ 
 
 \subsection{Programing with OpenGL}
-OpenGL is a C based API which uses C function calls to access functionality on 
-the graphics processor. The API is implemented as a collection of \#define'd 
-constants, types and methods, all prefixed with GL 
-(GLShort,GL\_DEPTH\_BUFFER\_BIT,glColor3f). OpenGL owns storage for all objects
-used in the rendering, user programs have to request access to buffers and offer
-memory regions to be used. Due to OpenGL's stateful nature contexts can be used 
-in programs to make segmenting up drawing easier, an entity can configure it's 
-drawing space, then save this in a context, stopping interferance from other 
-entities drawing. \\
+OpenGL is a C API for accessing the functionality of the graphics processor and
+updating values in the state machine. Every component of the OpenGL library is
+prefixed with GL (GLshort,glColor3f,GL\_DEPTH\_BUFFER\_BIT). 
+The library functions for opengl are layed out in a very simple manner and it
+follows the approach of sane defaults, anytime a context could be needed there 
+will be a global one available by default.\\
 
-OpenGL is a simple API to a very complex underlying state machine, the API is 
-very tolerant and provides a lot of the configuration for a global context by 
-default. More complex programs need to do more work setting up, but allow the
-programmer to create very powerful compartmentalised code that can be reused in 
-many situations.\\
+Most of the OpenGL function that will be encountered in this document are for
+configuring the graphics context, setting up buffers and providing the under
+lying vertex data that opengl will actually use to render.\\
 
-Before any drawing can be done, an OpenGL context has to be received from the OS
-and the program needs to go through the process of loading and compiling the 
-shader programs. For our example these are both abstracted away into functions as
-they can be very OS dependant.  \\
+Each object in OpenGL needs to live with a Vertex Array Object, this object will
+maintain its own state and remember the buffers that have been mapped for its 
+use, with the VAO rendering is greatly simplified and each object in this
+project will have its own VAO.\\
+
+\begin{center}
+\includegraphics[width=5cm]{Images/VertexArrays.png}
+\end{center}
+
+The vertex data for an object is stored in an array in system memory and this is
+mapped into a vertex buffer object by opengl. The most efficent method for 
+packing this array is to use interweived vertex arrays for the data. This way
+instead of having all the vertex information lying next to each other, then the
+colour information we have all the meta data for the vertex, then all the meta
+data for the next vertex for every vertex in the mesh.\\
 
 \begin{description}
 \item[Vertex Array Object] The first OpenGL based configurations is the 
@@ -193,17 +199,11 @@ vertex data need to be configured, this is done by setting the attribute
 pointer. 
 \end{description}
 
-\begin{center}
-\includegraphics[width=5cm]{Images/VertexArrays.png}
-\end{center}
-
-Vertex data can be packed as an individual array, or stored in an interwieved 
-vertex array. This way all of the meta data about the vertex is stored in line 
-relative to the vertex itself. This method allows a reduction in the number of 
-memory buffers and simplifies specification of information. The 
-glVertexAttribPointer function call makes this easy by providing a step value and
-an initial offset value for memory locations. These are passed in the final two
-parameters to the function call respectivly.\\
+OpenGL is only able to operate within a context provided by the operating system
+this configuration is abstracted away in our example, so is the creation of the
+shader programs as these are trivial task, full examples can be seen within the
+resourcemanager class in the main project. This example should give a precise
+overview of the management functions that OpenGL has to do in order to create a 
+proper context for rendering.\\
 
 \lstinputlisting{src/progamablepipelineexample.c}
-

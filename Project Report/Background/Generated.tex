@@ -55,19 +55,25 @@ draw backs as the MDP algorithm.\\
 FAULT RESULT IMAGE\\
 
 \subsection{Noise Based Generation}
-During the development of the ground breaking CGI film Tron, Ken Perlin found 
-that the generated scenes in the film were too 'clean', they need a form of noise
-applied to them to appear more life like and not purely computer generated. 
-Perlin Noise was created to alieviate that problem, A multidimensional functions
-that provides a value in the [-1,1] range for a give position ( (x,y) in 2D 
-noise). Perline Noise has proven to be very use in creating realistic blended 
-textures and can be used to generate height maps for realistic terrain and is a 
-commonly used technique to this day for improving the realism of a rendered or
-generated world.\\
+Noise functions produce random values in the real range [-1,1] based of some 
+predefined function, purely random noise is very noisy and produces no noticable
+pattern. The noise we are going to explore for generation is called Coherent
+Noise, that is instead of just random values changing across the pattern there 
+is a smooth scaling between transitions within the noise.\\
 
 \subsubsection*{Perlin Noise}
+The type of noise we are going to use for generation is called Perlin Noise. 
+Perlin Noise was developed for use in the movie Tron by Ken Perlin, he wanted to
+break up the un realisticly clean lines and shapes that the graphics system was
+producing. Perlin Noise is very frequentyl used for generation in games and is 
+even built into some programming languagues.\\
+
+Perlin Noise can be generated in by number of dimensions, but we will look at the
+2D case to describe an aproximation of how we derrive the value for a given 
+(x,y).\\
 
 
+\subsubsection*{Using Perlin Noise}
 The basic idea around Noise generation is to take values at a given interval from
 a psuedorandom number generator, and interpolate between the two, effectivly 
 smoothing between the generated intervals. Perlin Noise can be generated in any
