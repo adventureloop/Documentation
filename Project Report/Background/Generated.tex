@@ -72,28 +72,43 @@ Perlin Noise can be generated in by number of dimensions, but we will look at th
 2D case to describe an aproximation of how we derrive the value for a given 
 (x,y).\\
 
+If we define our noise function noise(x,y)=z, where x,y,z are all real values
+numbers. If we define our noise function of a 2D grid, where any fractional value
+lies between points on the grid. If we consider the points around our (x,y), in
+the 2D plane we have 4 of them, (x0,y0),(x0,y1),(x1,y0),(x1,y1).\\
+
+GRID POINTS IMAGE;\\
+GRADIENT POINTS IMAGE\\
+TO GRADIENT IMAGE\\
+
+The function g(xgrid,ygrid) = (gx,gy) will map a pseudo random gradient g to each
+of our grid points. Also for each grid point we need to generate a vector to 
+(x,y).\\
+
+The influence of each gradient can be calculated by performing the dot product of
+the gradient and the vector going from its grid point.
+
+We finally take a weight average of the influences of the grid points, and ease
+this over an awesomeness function\\
+
+WEIGHT FUNCTION IMAGE\\
+
+This will produce our final values.\\
 
 \subsubsection*{Using Perlin Noise}
-The basic idea around Noise generation is to take values at a given interval from
-a psuedorandom number generator, and interpolate between the two, effectivly 
-smoothing between the generated intervals. Perlin Noise can be generated in any
-dimension, but for this document we will use 1D noise as an example and 2 and 
-3 dimensional noise for generation. This document uses the original C function
-libraries written by Ken Perlin for his noise generation.\\ 
+The process of generating noise can be quite invovled and the process described
+above has a number of additional optimizations placed upon it before we can use
+it to generate terrain. The final Perlin Noise functions we will use come from
+Ken Perlins noise library and have the following function prototype.\\
 
 \begin{lstlisting}
-double PerlinNoise1D(double x,double alpha,double beta,int n);
 double PerlinNoise2D(double x,double y,double alpha,double beta,int n);
-double PerlinNoise3D(double x,double y,double z,double a,double b,int n);
 \end{lstlisting}
 
 For the above dimensions it can be seen that the noise function takes in the 
 position for the desired value, in the number of dimensions. N is usually given
 in the 6 to 10 range. The alpha value effects how noisy the final values are,with
 1 being the noisest and increasing values producing smoother functions.\\
-
-1D NOISE IMAGES\\
-
 
 \subsection{Conclusion}
 The desired properties of the final generation system are the best criteria to
