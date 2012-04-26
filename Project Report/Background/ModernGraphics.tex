@@ -145,8 +145,11 @@ within the fragment shader\\
 
 \lstinputlisting{src/example.fsh}
 
-Shader programs are compiled and linked at run time, this allows shaders to be 
-portable across all types of graphics cards.\\
+There are many different types of graphics chipsets in the wild and it would be
+difficult to create binaries that will run on every graphics card. To get around
+this the compilation and linking of shader programs are performed at run time.
+This allows our shader programs to run on almost any platform without many
+changes.\\ 
 
 \subsection{Programing with OpenGL}
 OpenGL is a C based API which uses C function calls to access functionality on 
