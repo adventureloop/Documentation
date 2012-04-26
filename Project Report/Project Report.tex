@@ -60,17 +60,21 @@
 %\pagestyle{fancy} 
 \fancyhead{} % Clear all header fields 
 \fancyfoot{} %Clear footer fields
-\fancyfoot[RE,RO]{\thepage}
+\fancyfoot[c]{\thepage}
 %\fancyfoot[L]{\includegraphics{Images/FooterIsland.png}}% 
 
 \begin{document}
 
+\pagenumbering{roman}
 \include{extra/TitlePage}
 
 \include{extra/Abstract}
 \include{extra/Acknowledgements}
 \tableofcontents
 
+\clearpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
 \include{Introduction/IntroductionChapter}
 \include{Background/BackgroundChapter}
 \include{Design/DesignChapter}
