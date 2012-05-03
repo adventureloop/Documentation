@@ -7,7 +7,7 @@ the limit of hardware even down into the mobile space.\\
 
 Dedicated graphics hardware has allowed for a move from using the CPU of a 
 computer to handle complex geometry tasks and as this has happened game designers
-and developers have asked for more and more from the graphics chipset
+and developers have asked for more and more from the graphics chip set
 manufacturers. The latest graphics cards are now more generalised vector 
 processors that can be applied to many different data calculation intensive tasks
 including the creation of complex, interesting and realistic 3D graphics.\\
@@ -16,8 +16,8 @@ including the creation of complex, interesting and realistic 3D graphics.\\
 Access to graphics needs to be mitigated through the use of libraries, these 
 libraries have grown up with the graphics cards and together have pushed the 
 limits of the hardware. Two competing standards have developed over time, Direct
-3D from microsoft and the OpenGL specification for the ARB group. Direct 3D is 
-limited to run only on microsoft platforms such as window and the xbox console,
+3D from Microsoft and the OpenGL specification for the ARB group. Direct 3D is 
+limited to run only on Microsoft platforms such as window and the xbox console,
 but OpenGL is a standard that can be and is implemented everywhere. Due to this
 Direct 3D has been discounted as an option for this project and instead OpenGL
 has been investigated.\\
@@ -32,12 +32,12 @@ the rest is a black box.\\
 OpenGL's functionality is based around a state machine, this machine needs to be
 configured by the program for each drawing call, but will preserve this state 
 unless otherwise changed. For drawing OpenGL is a very powerful rasteriser, its
-main opertaion being the processing of triangles in the form of vertices into
+main operation being the processing of triangles in the form of vertexes into
 pixels on a final display. \\
 
 OpenGL is only really a description of the interface with the hardware, for 
 practical use the operating system must provide the window in which the final
-display will appear. This allows the opengl commands to be platform agnostic, 
+display will appear. This allows the OpenGL commands to be platform agnostic, 
 letting windowing functionality come from the OS itself.\\
 
 \subsubsection*{Drawing}
@@ -45,9 +45,9 @@ A computer screen is a grid of squares called pixels(picture elements), each
 pixel contains red green and blue lights and these are combined to create a 
 colour in each pixel. 
 
-A vector graphic is an image that is made up from mathematic formulae describing
+A vector graphic is an image that is made up from mathematical formulae describing
 the lines and colours in the image instead of the pixel data. Vector graphics
-have the nice property that they will scall infinitely, you wont see any 
+have the nice property that they will scale infinitely, you wont see any 
 artifacts or large pixels when you zoom. Vector graphics are also easy to define
 and very low on memory. Rasterisation is the process of converting a vector 
 graphic into pixels that will be displayed on a screen. Graphics cards are 
@@ -56,18 +56,18 @@ this process of moving from a vector description of an image to final pixel
 values on the screen.\\
 
 To build up realistic models using vector art graphics systems rely on a large
-amount of fakery. OpenGL uses the triangle as its most primitive shape, these
+amount of forgery. OpenGL uses the triangle as its most primitive shape, these
 triangles are then combined to create very complex shapes in what are called 
 meshes. Any complex shape can be made from a number of triangles, the greater the
 desired precision the more triangles are required.\\
 
 \subsection{Rendering Pipeline}
-\subsubsection{Triangles and Verticies}
+\subsubsection{Triangles and Vertexes}
 OpenGL is the interface to the hardware rasteriser, A Vertex is the most 
-primitive type that opengl can operate with. Each Vertex will describe its 
+primitive type that OpenGL can operate with. Each Vertex will describe its 
 position in space and may include meta data about itself, like colour 
 information. OpenGL has a number of different ways it can use vertex data, but 
-the most common is to take vertices three at a time and use them to create 
+the most common is to take vertexes three at a time and use them to create 
 triangles.\\
 
 Once the vertex data for all the triangles in a mesh have been passed to OpenGL,
@@ -78,31 +78,31 @@ pixels in the window.\\
 
 The rough stages for the rasterisation pipeline are:
 \begin{description}
-\item[Clip Space Transfromation] The first phase of the rasterisation process
-is transformation of vertices into clip space. Clip space defines a region in 
+\item[Clip Space Transformation] The first phase of the rasterisation process
+is transformation of vertexes into clip space. Clip space defines a region in 
 space, anything inside of which will be rendered, anything outside of this space
-will be disguared. Objects that lie across this boundary will have their surface
+will be discarded. Objects that lie across this boundary will have their surface
 broken down into small triangles until all of which lie within clip space, hence
 clipping. Positions in clip space have an additional W position, this defines the
 extent of clip space for the coordinate in the [-W,W] range.
-The operations in clip space can be quite arbitary as the programmer 
+The operations in clip space can be quite arbitrary as the programmer 
 has a lot of control over how the clip transformation operates.
 
 \item[Normalised Device Coordinates] The Normalised Device Coordinate space is 
-used to make visualising triangles much simplier. It is effectivly the same as 
+used to make visualising triangles much simpler. It is effectively the same as 
 Clip space, but each coordinated lies within the [-1,1] range. The division is 
 part of the projection from 3D shapes to 2D colours.
 \item[Window Transformation] Window coordinated are converted to from normalised
 device coordinates. In this space each coordinate is relative to the window that
-we are rendering into, these coorinates are still 3D and have float point 
+we are rendering into, these coordinates are still 3D and have float point 
 precision, window coordinates are not pixel mappings.
-\item[Scan Converstion] Scan Conversion takes each triangle as described in 
+\item[Scan Conversion] Scan Conversion takes each triangle as described in 
 window coordinated and maps it to pixels that are covered by its shape. Scan 
 conversion will create a \emph{fragment} for each pixel sample that is within
 the triangles shape.
 \item[Fragment Processing] Fragment processing is the phase where each fragment 
-is given one of more colours and has as depth value applied agasint it. This 
-phase can also be qute arbitary as the programmer is given access to the pipeline
+is given one of more colours and has as depth value applied against it. This 
+phase can also be quote arbitrary as the programmer is given access to the pipeline
 as this stage.
 \item[Fragment Writing] The phase of the rasterisation pipeline is to write the 
 coloured fragment to the display.
@@ -118,7 +118,7 @@ the case of the fragment shader.\\
 
 OpenGL provides a simple C like language called GLSL(Graphics Library Shading 
 Language), GLSL contains extensions that make writing programs that use vectors
-and matrices very easy. Builtin variables are also provided to allow easier
+and matrices very easy. Built in variables are also provided to allow easier
 implementation of shader programs. \\
 
 \lstinputlisting{src/example.vsh}
@@ -129,23 +129,23 @@ placing the attribute specifier before the variable in the global block. Finally
 uniforms variables can be passed to the shader programs, these values are the 
 same for each rendering call, but can be changed between render calls.\\
 
-Vertex shaders are used from geometric placement of vertices and similar tasks
-that would involve a lot of processing on the cpu. These are be highly 
+Vertex shaders are used from geometric placement of vertexes and similar tasks
+that would involve a lot of processing on the CPU. These are be highly 
 parrallelised on the GPU allows for more complex placement than was previously
-possible. The vertex shader is also responsible for transforming vertices into
-a view frustum, the visible view area. The vertex shader with also controll 
+possible. The vertex shader is also responsible for transforming vertexes into
+a view frustum, the visible view area. The vertex shader with also control 
 modelling and camera transformations and can be used in simple vertex based forms
 of lighting.\\
 
 The fragment shader is much more limited in its scope, it only has access to the
 final fragments before they are written and any used specified uniforms. Despite
-this the fragment shader is resposible for high resolution effects like fog and
-many realistic forms of lighiting rely on the precision that is only available
+this the fragment shader is responsible for high resolution effects like fog and
+many realistic forms of lighting rely on the precision that is only available
 within the fragment shader\\
 
 \lstinputlisting{src/example.fsh}
 
-There are many different types of graphics chipsets in the wild and it would be
+There are many different types of graphics chip sets in the wild and it would be
 difficult to create binaries that will run on every graphics card. To get around
 this the compilation and linking of shader programs are performed at run time.
 This allows our shader programs to run on almost any platform without many
@@ -155,13 +155,13 @@ changes.\\
 OpenGL is a C API for accessing the functionality of the graphics processor and
 updating values in the state machine. Every component of the OpenGL library is
 prefixed with GL (GLshort,glColor3f,GL\_DEPTH\_BUFFER\_BIT). 
-The library functions for opengl are layed out in a very simple manner and it
+The library functions for OpenGL are layed out in a very simple manner and it
 follows the approach of sane defaults, anytime a context could be needed there 
 will be a global one available by default.\\
 
 Most of the OpenGL function that will be encountered in this document are for
 configuring the graphics context, setting up buffers and providing the under
-lying vertex data that opengl will actually use to render.\\
+lying vertex data that OpenGL will actually use to render.\\
 
 Each object in OpenGL needs to live with a Vertex Array Object, this object will
 maintain its own state and remember the buffers that have been mapped for its 
@@ -173,8 +173,8 @@ project will have its own VAO.\\
 \end{center}
 
 The vertex data for an object is stored in an array in system memory and this is
-mapped into a vertex buffer object by opengl. The most efficent method for 
-packing this array is to use interweived vertex arrays for the data. This way
+mapped into a vertex buffer object by OpenGL. The most efficient method for 
+packing this array is to use interleaved vertex arrays for the data. This way
 instead of having all the vertex information lying next to each other, then the
 colour information we have all the meta data for the vertex, then all the meta
 data for the next vertex for every vertex in the mesh.\\
@@ -202,7 +202,7 @@ pointer.
 OpenGL is only able to operate within a context provided by the operating system
 this configuration is abstracted away in our example, so is the creation of the
 shader programs as these are trivial task, full examples can be seen within the
-resourcemanager class in the main project. This example should give a precise
+resource manager class in the main project. This example should give a precise
 overview of the management functions that OpenGL has to do in order to create a 
 proper context for rendering.\\
 

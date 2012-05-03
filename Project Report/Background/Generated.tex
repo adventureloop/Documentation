@@ -25,15 +25,15 @@ dungeons that are different very time.\\
 \subsubsection*{Mid Point Displacement}
 The midpoint displacement algorithm works around raising relative levels around a
 point, an offset grid is the best medium for this to work in. This leads to noisy
-variation, it can be good for providing variaton in a flat or rolling landscape.\\
+variation, it can be good for providing variation in a flat or rolling landscape.\\
 
 MDP IMAGE\\
 
 MDP works around picking a random point within the offset grid and increasing its
 height slightly compared to those around. This can be done in a large number of 
-interations and the height variance can be altered with each, the final product 
-being very noisy. Every cycle of this algoritms has a large cost and it is very
-difficult to simualte edge conditions for unloaded chunks. MPD can be effect, but
+interactions and the height variance can be altered with each, the final product 
+being very noisy. Every cycle of this algorithms has a large cost and it is very
+difficult to simulate edge conditions for unloaded chunks. MPD can be effect, but
 expensive to run in increasing generations.\\
 
 MDP RESULT IMAGE\\
@@ -41,14 +41,14 @@ MDP RESULT IMAGE\\
 \subsubsection*{Fault Algorithm}
 The fault algorithm can implement either comparative raising or both raising and
 lowering or height levels. Terrain generated with fault algorithms can be 
-inherentyl smoother than MDP, yet takes a large number of generations to produce
+inherently smoother than MDP, yet takes a large number of generations to produce
 interesting terrain.\\
 
 FAULT IMAGE\\
 
-The Fault algoritm works on a 2D grid, a line( or fault) is then drawn across the
-grid, heights on either side of this line are raised and lowered respectivly.
-Smoothing can be added to improve the quality of the faulting, a sigmoidal 
+The Fault algorithm works on a 2D grid, a line( or fault) is then drawn across the
+grid, heights on either side of this line are raised and lowered respectively.
+Smoothing can be added to improve the quality of the faulting, a sigmoid 
 function produces quite a realistic value. The Fault algorithm shares the same
 draw backs as the MDP algorithm.\\
 
@@ -56,7 +56,7 @@ FAULT RESULT IMAGE\\
 
 \subsection{Noise Based Generation}
 Noise functions produce random values in the real range [-1,1] based of some 
-predefined function, purely random noise is very noisy and produces no noticable
+predefined function, purely random noise is very noisy and produces no noticeable
 pattern. The noise we are going to explore for generation is called Coherent
 Noise, that is instead of just random values changing across the pattern there 
 is a smooth scaling between transitions within the noise.\\
@@ -64,12 +64,12 @@ is a smooth scaling between transitions within the noise.\\
 \subsubsection*{Perlin Noise}
 The type of noise we are going to use for generation is called Perlin Noise. 
 Perlin Noise was developed for use in the movie Tron by Ken Perlin, he wanted to
-break up the un realisticly clean lines and shapes that the graphics system was
-producing. Perlin Noise is very frequentyl used for generation in games and is 
-even built into some programming languagues.\\
+break up the un realistically clean lines and shapes that the graphics system was
+producing. Perlin Noise is very frequently used for generation in games and is 
+even built into some programming languages.\\
 
 Perlin Noise can be generated in by number of dimensions, but we will look at the
-2D case to describe an aproximation of how we derrive the value for a given 
+2D case to describe an approximation of how we derive the value for a given 
 (x,y).\\
 
 If we define our noise function noise(x,y)=z, where x,y,z are all real values
@@ -96,8 +96,8 @@ WEIGHT FUNCTION IMAGE\\
 This will produce our final values.\\
 
 \subsubsection*{Using Perlin Noise}
-The process of generating noise can be quite invovled and the process described
-above has a number of additional optimizations placed upon it before we can use
+The process of generating noise can be quite involved and the process described
+above has a number of additional optimisations placed upon it before we can use
 it to generate terrain. The final Perlin Noise functions we will use come from
 Ken Perlins noise library and have the following function prototype.\\
 
@@ -108,13 +108,13 @@ double PerlinNoise2D(double x,double y,double alpha,double beta,int n);
 For the above dimensions it can be seen that the noise function takes in the 
 position for the desired value, in the number of dimensions. N is usually given
 in the 6 to 10 range. The alpha value effects how noisy the final values are,with
-1 being the noisest and increasing values producing smoother functions.\\
+1 being the noisiest and increasing values producing smoother functions.\\
 
 \subsection{Conclusion}
 The desired properties of the final generation system are the best criteria to
 evaluate the possible approached. We aim to create a system that can generate
 the terrain under the users position on the fly, this generation needs to be
-reproducable despite the order in which the user interacts with the world. Most
+reproducible despite the order in which the user interacts with the world. Most
 of all the approach used needs to be a fast as possible to avoid locking up of
 the system.\\
 
@@ -131,8 +131,8 @@ suited to fixed sizes. It is possible to use an overall general map, but
 difficult to reproduce out of ordered generations which we are likely to
 experience. 
 
-\item[Perlin Noise] Noise based generation is fast, atleast compared to the other
-methods, and is entirely reproducable from any state. These two qualities make it
+\item[Perlin Noise] Noise based generation is fast, at least compared to the other
+methods, and is entirely reproducible from any state. These two qualities make it
 perfect for our requirements. Noise can also be used on multiple dimensions, 
 allowing height maps to be generated as well as 3D density maps leading to very
 interesting realistic worlds.
@@ -140,5 +140,5 @@ interesting realistic worlds.
 
 Considering our requirements noised based generation is the best overall 
 approach,
-but as more complex worlds are create inspiraion will come from other 
+but as more complex worlds are create inspiration will come from other 
 techniques.\\
