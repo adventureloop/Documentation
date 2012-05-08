@@ -13,9 +13,7 @@ uniform vec3 translation;
 void main()
 {
     vec4 temp = position + vec4(translation,1.0);
-	    
     temp = worldToCameraMatrix * temp;
-			    
     gl_Position = cameraToClipMatrix * temp;
 
     outColor = inColor + vec4(normal,1.0);

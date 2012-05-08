@@ -13,7 +13,8 @@ processors that can be applied to many different data calculation intensive task
 including the creation of complex, interesting and realistic 3D graphics.\\
 
 \subsection{OpenGL Overview} 
-Access to graphics needs to be mitigated through the use of libraries, these 
+Access to the underlying graphics hardware is mitigated through the use of libraries
+.These 
 libraries have grown up with the graphics cards and together have pushed the 
 limits of the hardware. Two competing standards have developed over time, Direct
 3D from Microsoft and the OpenGL specification for the ARB group. Direct 3D is 
@@ -35,35 +36,38 @@ unless otherwise changed. For drawing OpenGL is a very powerful rasteriser, its
 main operation being the processing of triangles in the form of vertexes into
 pixels on a final display. \\
 
-OpenGL is only really a description of the interface with the hardware, for 
+OpenGL is a description of the interface with the hardware, for 
 practical use the operating system must provide the window in which the final
 display will appear. This allows the OpenGL commands to be platform agnostic, 
 letting windowing functionality come from the OS itself.\\
 
 \subsubsection*{Drawing}
 A computer screen is a grid of squares called pixels(picture elements), each
-pixel contains red green and blue lights and these are combined to create a 
-colour in each pixel. 
+pixel contains red, green and blue components and these are combined to create a 
+colour in each pixel. \\
 
 A vector graphic is an image that is made up from mathematical formulae describing
-the lines and colours in the image instead of the pixel data. Vector graphics
-have the nice property that they will scale infinitely, you wont see any 
+the lines and colours in the image instead of just the colour that should go into the
+pixel. Vector graphics
+will scale infinitely, you wont see any 
 artifacts or large pixels when you zoom. Vector graphics are also easy to define
-and very low on memory. Rasterisation is the process of converting a vector 
-graphic into pixels that will be displayed on a screen. Graphics cards are 
-pieces of hardware call raterisers that are specifically designed to stream line
+and very low on memory for simple shapes. 
+Rasterisation is the process of converting a vector 
+graphic image into the pixels that will be displayed on the screen. 
+Graphics cards are 
+pieces of hardware called raterisers and are specifically designed to stream line
 this process of moving from a vector description of an image to final pixel 
 values on the screen.\\
 
 To build up realistic models using vector art graphics systems rely on a large
-amount of forgery. OpenGL uses the triangle as its most primitive shape, these
-triangles are then combined to create very complex shapes in what are called 
+amount of fakery. OpenGL uses the triangle as its most primitive shape, these
+are then combined to create very complex shapes in what are called 
 meshes. Any complex shape can be made from a number of triangles, the greater the
 desired precision the more triangles are required.\\
 
 \subsection{Rendering Pipeline}
 \subsubsection{Triangles and Vertexes}
-OpenGL is the interface to the hardware rasteriser, A Vertex is the most 
+OpenGL is an interface to the hardware rasteriser, A Vertex is the most 
 primitive type that OpenGL can operate with. Each Vertex will describe its 
 position in space and may include meta data about itself, like colour 
 information. OpenGL has a number of different ways it can use vertex data, but 
@@ -112,7 +116,7 @@ coloured fragment to the display.
 There are two points in the rasterisation pipeline that have hooks allow 
 customisation from the programmer. The first is during clip space transformation
 and the second is during Fragment Processing. To access the rasteriation pipeline
-small programs called shaders are used, these programs have hooks to access the
+small programs called shaders are used, these programs have access to the
 vertex data in the case of vertex shaders and access to the fragments created in
 the case of the fragment shader.\\
 
@@ -123,11 +127,17 @@ implementation of shader programs. \\
 
 \lstinputlisting{src/example.vsh}
 
-Inside the vertex shader variable called attributes can be defined that directly
+Inside the vertex shader variables called attributes can be defined that directly
 link to the vertex data provided by OpenGL. These variables are declared by 
-placing the attribute specifier before the variable in the global block. Finally
-uniforms variables can be passed to the shader programs, these values are the 
-same for each rendering call, but can be changed between render calls.\\
+placing the attribute specifier before the variable in the global block.
+Uniforms are variables that can be passed to the shader programs, 
+these values are the 
+same for each rendering call, but can be changed between render calls. Uniform
+variables are used to pass values that would be expensive to calculated with every
+call, instead they can be calculated once on the CPU then passed as a variable to
+improve speed. Varying variables can be used to pass data between the two shader 
+stages, in our example here the outColor variable is used to pass the colour from the
+vertex array to the fragment shader.\\
 
 Vertex shaders are used from geometric placement of vertexes and similar tasks
 that would involve a lot of processing on the CPU. These are be highly 
@@ -138,7 +148,8 @@ modelling and camera transformations and can be used in simple vertex based form
 of lighting.\\
 
 The fragment shader is much more limited in its scope, it only has access to the
-final fragments before they are written and any used specified uniforms. Despite
+final fragments before they are written,varying variables from the stages before and
+any user specified uniforms. Despite
 this the fragment shader is responsible for high resolution effects like fog and
 many realistic forms of lighting rely on the precision that is only available
 within the fragment shader\\
@@ -159,32 +170,32 @@ The library functions for OpenGL are layed out in a very simple manner and it
 follows the approach of sane defaults, anytime a context could be needed there 
 will be a global one available by default.\\
 
-Most of the OpenGL function that will be encountered in this document are for
-configuring the graphics context, setting up buffers and providing the under
-lying vertex data that OpenGL will actually use to render.\\
-
-Each object in OpenGL needs to live with a Vertex Array Object, this object will
-maintain its own state and remember the buffers that have been mapped for its 
-use, with the VAO rendering is greatly simplified and each object in this
-project will have its own VAO.\\
+For rendering each object in OpenGL lives within a context called a Vertex Array
+Object(VAO). This context managers object level state within the OpenGL machine, the
+state specifies where the render data for the object is mapped in memory, how to 
+access that data and any changed to state machine variables.\\
 
 \begin{center}
 \includegraphics[width=5cm]{Images/VertexArrays.png}
 \end{center}
 
-The vertex data for an object is stored in an array in system memory and this is
-mapped into a vertex buffer object by OpenGL. The most efficient method for 
-packing this array is to use interleaved vertex arrays for the data. This way
-instead of having all the vertex information lying next to each other, then the
-colour information we have all the meta data for the vertex, then all the meta
-data for the next vertex for every vertex in the mesh.\\
+The vertex data for each object rendered has to be passed to OpenGL inside an array,
+this is usually called the vertex array. The vertex array needs to contain the data
+that describes the position of the vertex in real terms, it can also contain colour
+information and normal data (normal are vectors that describe the direction a face
+points).\\
+
+OpenGL provides functions to specify where the vertex data is stored, it is possible
+to have the vertex data for positions, colours and normals in different memory arrays
+in the computer, but it is much more practical to use interleaved vertex arrays.
+Inteleaved vertex arrays have the data for each vertex packed together, so the 
+position data is first in the array, then  the colour data, then the normal data. 
+This way it is possible to create C structs that describe this layout and then map
+those structs onto an array to hold all of the vertex data for the object.\\
 
 \begin{description}
-\item[Vertex Array Object] The first OpenGL based configurations is the 
-creation of the buffer context and the allocation of memory on the graphics card
-to be used. A vertex array object is used to store the locations of attributes 
-and drawing related state, the location of the array data is also stored with
-this object.
+\item[Vertex Array Object] The VAO is the container in which all of the configuration
+state for the object is stored.
 \item[Vertex Buffer Object]
 To provide data to OpenGL a Vertex Buffer Object needs to be created
 and assigned to the VAO, the VBO stores where in system memory the vertex data 
@@ -199,11 +210,11 @@ vertex data need to be configured, this is done by setting the attribute
 pointer. 
 \end{description}
 
-OpenGL is only able to operate within a context provided by the operating system
-this configuration is abstracted away in our example, so is the creation of the
-shader programs as these are trivial task, full examples can be seen within the
-resource manager class in the main project. This example should give a precise
-overview of the management functions that OpenGL has to do in order to create a 
-proper context for rendering.\\
+%OpenGL is only able to operate within a context provided by the operating system
+%this configuration is abstracted away in our example, so is the creation of the
+%shader programs as these are trivial task, full examples can be seen within the
+%resource manager class in the main project. This example should give a precise
+%overview of the management functions that OpenGL has to do in order to create a 
+%proper context for rendering.\\
 
-\lstinputlisting{src/progamablepipelineexample.c}
+%\lstinputlisting{src/progamablepipelineexample.c}

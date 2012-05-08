@@ -1,3 +1,5 @@
+\newpage
+
 \section{Generation Techniques}
 
 \subsection{Simulated Generation}
@@ -29,36 +31,89 @@ techniques are the main mechanic in the game Nethack, used to generate winding
 dungeons that are different very time.\\
 
 \subsubsection*{Mid Point Displacement}
-The midpoint displacement algorithm works around raising relative levels around a
-point, an offset grid is the best medium for this to work in. This leads to noisy
-variation, it can be good for providing variation in a flat or rolling landscape.\\
+Midpoint displacement, or the diamond squared algorithm works on a 2D grid and uses
+multiple passes which vary the terrain levels in each to generate its landscape.\\
 
-MDP IMAGE\\
+\begin{figure}[h!]
+\begin{center}$
+\begin{array}{cc}
+\includegraphics[width=0.25\textwidth]{Images/mpd1.jpg}
+\includegraphics[width=0.25\textwidth]{Images/mpd2.jpg}
+\end{array}$
+\end{center}
+\caption{MPD Grid}
+\end{figure}
 
-MDP works around picking a random point within the offset grid and increasing its
-height slightly compared to those around. This can be done in a large number of 
-interactions and the height variance can be altered with each, the final product 
-being very noisy. Every cycle of this algorithms has a large cost and it is very
-difficult to simulate edge conditions for unloaded chunks. MPD can be effect, but
-expensive to run in increasing generations.\\
+The grid is can initialised to random values, a preset or even zeros this depends on
+the desired result for the terrain. The first step is to find a value for the central
+point E. Where the value from the random function RAND(d) is within the range,[-d,d].
+D reprsents the maximum displacement in the current iteration.\\
 
-MDP RESULT IMAGE\\
+\begin{math}
+E = (A+B+C+D) / 4 + RAND(d)\\
+\end{math}
+
+What follows is the square step. midpoints between the four corners, are computed as
+an average of the connected points plus a random displacement.\\
+
+\begin{math}
+F = (A + C + E + E) / 4 + RAND(d)\\
+G = (A + B + E + E) / 4 + RAND(d)\\
+H = (B + D + E + E) / 4 + RAND(d)\\
+I = (C + D + E + E) / 4 + RANS(d)\\
+\end{math}
+
+Once the first iteration has been completed it is necessary to multiply the value of
+\emph{d} as shown. Where \emph{r} is the roughness constant for the terrain being
+generated.\\
+
+\begin{math}
+d *= pow(2,-r)\\
+\end{math}
+
+Now we have four squares the process is repeated for each of the next squares. First
+each square applies the diamond step, calculates the height for each of the center 
+points. Then the square point is applied to all of the diamonds to create then next
+level of values.\\
+
+\begin{figure}[h!]
+\begin{center}$
+\begin{array}{cc}
+\includegraphics[width=0.25\textwidth]{Images/mpd3.jpg}
+\includegraphics[width=0.25\textwidth]{Images/mpd4.jpg}
+\includegraphics[width=0.25\textwidth]{Images/mpd5.jpg}
+\end{array}$
+\end{center}
+\end{figure}
 
 \subsubsection*{Fault Algorithm}
-The fault algorithm can implement either comparative raising or both raising and
-lowering or height levels. Terrain generated with fault algorithms can be 
-inherently smoother than MDP, yet takes a large number of generations to produce
-interesting terrain.\\
 
-FAULT IMAGE\\
+\begin{wrapfigure}{r}{0.14\textwidth}
+	\vspace{-40pt}
+	\begin{center}
+		\includegraphics[width=0.25\textwidth]{Images/grid.png}
+	\end{center}
+\end{wrapfigure}
+The fault algorithm works on a grid similar to the MDP algorithm. The grid again can
+be initialised to random or preset values. Fault is a very simple algorithm and with
+a large number of iterations can create very interesting terrain. \\
 
-The Fault algorithm works on a 2D grid, a line( or fault) is then drawn across the
-grid, heights on either side of this line are raised and lowered respectively.
-Smoothing can be added to improve the quality of the faulting, a sigmoid 
-function produces quite a realistic value. The Fault algorithm shares the same
-draw backs as the MDP algorithm.\\
+The processing stage of the algorithm is to create a fault on the grid, a line 
+bisecting the grid. The next stage is to raise and lower the height either side of
+this grid, the method used to raise and lower the grid is where the algorithm can be 
+varied. The simpliest technique for this is a linear motion, but it is much more 
+effective to use a sigmoidal or similar function to perform this change.\\
 
-FAULT RESULT IMAGE\\
+\begin{figure}[h!]
+	\begin{center}$
+		\begin{array}{cc}
+			\includegraphics[width=0.35\textwidth]{Images/3DTechTerrain1.png}
+			\includegraphics[width=0.35\textwidth]{Images/3DTechTerrain16.png}
+			\includegraphics[width=0.35\textwidth]{Images/3DTechTerrain100.png}
+		\end{array}$
+	\end{center}
+	\caption{1,16 and 100 Iterations}
+\end{figure}
 
 \subsection{Noise Based Generation}
 Noise functions produce random values in the real range [-1,1] based of some 
@@ -66,6 +121,17 @@ predefined function, purely random noise is very noisy and produces no noticeabl
 pattern. The noise we are going to explore for generation is called Coherent
 Noise, that is instead of just random values changing across the pattern there 
 is a smooth scaling between transitions within the noise.\\
+
+\begin{figure}[h!]
+	\begin{center}$
+		\begin{array}{cc}
+			\includegraphics[width=0.35\textwidth]{Images/noise.png}
+			\includegraphics[width=0.35\textwidth]{Images/perlin.png}
+		\end{array}$
+	\end{center}
+	\caption{Random Noise versus Perline Noise}
+\end{figure}
+\newpage
 
 \subsubsection*{Perlin Noise}
 The type of noise we are going to use for generation is called Perlin Noise. 
@@ -77,42 +143,132 @@ even built into some programming languages.\\
 Perlin Noise can be generated in by number of dimensions, but we will look at the
 2D case to describe an approximation of how we derive the value for a given 
 (x,y).\\
+\begin{wrapfigure}{l}{0.25\textwidth}
+	\begin{center}
+			\includegraphics[width=0.25\textwidth]{Images/cornergridpoints.png}
+	\end{center}
+\end{wrapfigure}
 
-If we define our noise function noise(x,y)=z, where x,y,z are all real values
-numbers. If we define our noise function of a 2D grid, where any fractional value
-lies between points on the grid. If we consider the points around our (x,y), in
-the 2D plane we have 4 of them, (x0,y0),(x0,y1),(x1,y0),(x1,y1).\\
+We define our noise function on a regular grid, where each grid point is defiened as
+a whole number and any fractional point lies within a grid. If we want to find the
+value of noise(x,y), where x and y and both not whole numbers we have a point that
+lies somewhere within a square on our grid. The first thing we do is to look at the
+four points which surround our desired point, these are (x0,y0),(x0,y1),(x1,y0),
+(x1,y1).\\
 
-GRID POINTS IMAGE;\\
-GRADIENT POINTS IMAGE\\
-TO GRADIENT IMAGE\\
+\begin{wrapfigure}{r}{0.30\textwidth}
+	\vspace{-30pt}
+	\begin{center}
+			\includegraphics[width=0.28\textwidth]{Images/gradients.png}
+	\end{center}
+\end{wrapfigure}
 
-The function g(xgrid,ygrid) = (gx,gy) will map a pseudo random gradient g to each
-of our grid points. Also for each grid point we need to generate a vector to 
-(x,y).\\
+If we use the function g(xgrid,ygrid) = (gx,gy), which creates a pseudo random 
+gradient for each of our grid points. This function needs to give an appearance of
+randomness, but is an important step for the reproducability of the noise function
+on multiple runs.\\
 
-The influence of each gradient can be calculated by performing the dot product of
-the gradient and the vector going from its grid point.
+\begin{wrapfigure}{l}{0.30\textwidth}
+	\vspace{-25pt}
+	\begin{center}
+		\includegraphics[width=0.30\textwidth]{Images/cornervectors.png}
+	\end{center}
+\end{wrapfigure}
+For each grid point we also need to create the vector the vector from the grid point
+to the point we are trying to find, this is easily calculated by subtracting the 
+grid point from (x,y)\\
 
-We finally take a weight average of the influences of the grid points, and ease
-this over an awesomeness function\\
+These gradient are now enough to start calculating the noise value for our function,
+the first step is to calculate the influence of each random gradient on the final
+output of the noise function and to generate weighted averages as our output.\\
 
-WEIGHT FUNCTION IMAGE\\
+The influence of each gradient is calculated by calculating the dot product of the
+gradient and the vectors that go to our point, the (x,y).\\
+\begin{math}
+s = g(x0, y0) · ((x, y) - (x0, y0)) ,\\ 
+t = g(x1, y0) · ((x, y) - (x1, y0)) ,\\
+u = g(x0, y1) · ((x, y) - (x0, y1)) ,\\
+v = g(x1, y1) · ((x, y) - (x1, y1)) .\\
+\end{math}
 
-This will produce our final values.\\
+If we project into 3D space and create a diagram that best explains the directions of
+the vectors we have calculated.\\
+\begin{wrapfigure}{r}{0.30\textwidth}
+	\begin{center}
+		\includegraphics[width=0.25\textwidth]{Images/zcomponents.png}
+	\end{center}
+	\caption{Calculated Vectors}
+\end{wrapfigure}
+
+It is important to note that our four values (s,t,u,v) are uniquely determined by
+our grid point (x,y) and the random gradient function we have used. These values need
+to be combined to create our final output from the noise(x,y) function. To do this
+we take a weighted average of the four values, first s and t, then u and v using the
+final average of these to computed values. We use a weighted average, because when
+our point is closer to a grid value we want it to take more influence from that grid
+value.\\
+
+\begin{wrapfigure}{l}{0.255\textwidth}
+	\vspace{-40pt}
+	\hspace{-20pt}
+	\begin{center}
+		\includegraphics[width=0.25\textwidth]{Images/scurve.png}
+	\end{center}
+\end{wrapfigure}
+
+We use an ease curve to help exaggerate the input proximity to either one or zero.
+This curve means that values close to zero will be really close to zero and those
+close to one will be really close to one, values that fall close to half way will be
+exactly half way. Using the ease curve in this manner allows us to create the smooth
+noise that we want to use.\\
+
+To calculate our value we take the value of the ease curve at x-x0 to get a weight Sx
+.Then we can find an average of s and t bu contructing a linear function that maps 0
+to s and 1 to t, and evalutating it at our x dimension weight Sx. This forms the 
+average a,we do the same again for u and v calling the result b.\\
+
+\begin{figure}[h!]
+\begin{center}$
+\begin{array}{cc}
+\includegraphics[width=0.27\textwidth]{Images/calcsx.png}
+\includegraphics[width=0.25\textwidth]{Images/calca.png}
+\includegraphics[width=0.25\textwidth]{Images/calcb.png}
+\end{array}$
+\end{center}
+\caption{Find the value for Sx}
+\end{figure}
+
+
+\begin{figure}[h!]
+\begin{center}$
+\begin{array}{cc}
+\includegraphics[width=0.26\textwidth]{Images/calcsy.png}
+\includegraphics[width=0.25\textwidth]{Images/answer.png}
+\end{array}$
+\end{center}
+\caption{Find Sy curve and map final value}
+\end{figure}
+
+To find our y dimension weight,Sy we evaluate the curve y-y0 and take a weighted sum
+of a and b to create our final noise value z.\\
 
 \subsubsection*{Using Perlin Noise}
-The process of generating noise can be quite involved and the process described
-above has a number of additional optimisations placed upon it before we can use
-it to generate terrain. The final Perlin Noise functions we will use come from
-Ken Perlins noise library and have the following function prototype.\\
+Generating Perlin Noise if quite involved and there are further optimisations that
+can be added to improve the algorithm. To Save on development time it makes sense to
+use a library instead of reimplementing these noise functions again. The chosen 
+library is the C version that Ken Perlin provides along side his SIGRAPH talk on 
+generating noise. Due to its small size and use of standard C it is a very easy 
+library to integrate.\\
 
 \begin{lstlisting}
 double PerlinNoise2D(double x,double y,double alpha,double beta,int n);
 \end{lstlisting}
 
-For the above dimensions it can be seen that the noise function takes in the 
-position for the desired value, in the number of dimensions. N is usually given
+The interface to the library is very simple as can be seen from the above source
+listing.
+For the two dimension it can be the noise function takes in the 
+position for the desired value, the number of dimensions alpha, beta and an N value.
+N is usually given
 in the 6 to 10 range. The alpha value effects how noisy the final values are,with
 1 being the noisiest and increasing values producing smoother functions.\\
 
