@@ -16,8 +16,8 @@ patterns, prevailing wind flow and other world simulation methods.\\
 Theres are a number of problems with
 simulation the entire generation of a world that put it beyond our abilities. 
 The first issue is one of time, simulations can be very resource intensive and 
-can take a very long time to finish, our goal of creating the world on the fly 
-puts this outside our reach. The next issue is that of scale, simulations needs
+can take a very long time to finish, the goal of creating the world on the fly 
+puts this outside the reach. The next issue is that of scale, simulations needs
 limits for each generation, or the simulation will just run for ever. With other
 techniques we can create infinite world, this is much more desirable. These two
 problems are enough to rule out creating generated worlds using simulation.\\
@@ -129,7 +129,7 @@ is a smooth scaling between transitions within the noise.\\
 			\includegraphics[width=0.35\textwidth]{Images/perlin.png}
 		\end{array}$
 	\end{center}
-	\caption{Random Noise versus Perline Noise}
+	\caption{Random Noise versus Perlin Noise}
 \end{figure}
 \newpage
 
@@ -149,7 +149,7 @@ Perlin Noise can be generated in by number of dimensions, but we will look at th
 	\end{center}
 \end{wrapfigure}
 
-We define our noise function on a regular grid, where each grid point is defiened as
+We define our noise function on a regular grid, where each grid point is defined as
 a whole number and any fractional point lies within a grid. If we want to find the
 value of noise(x,y), where x and y and both not whole numbers we have a point that
 lies somewhere within a square on our grid. The first thing we do is to look at the
@@ -253,7 +253,7 @@ To find our y dimension weight,Sy we evaluate the curve y-y0 and take a weighted
 of a and b to create our final noise value z.\\
 
 \subsubsection*{Using Perlin Noise}
-Generating Perlin Noise if quite involved and there are further optimisations that
+Generating Perlin Noise is quite involved and there are further optimisations that
 can be added to improve the algorithm. To Save on development time it makes sense to
 use a library instead of reimplementing these noise functions again. The chosen 
 library is the C version that Ken Perlin provides along side his SIGRAPH talk on 
@@ -274,7 +274,7 @@ in the 6 to 10 range. The alpha value effects how noisy the final values are,wit
 
 \subsection{Conclusion}
 The desired properties of the final generation system are the best criteria to
-evaluate the possible approached. We aim to create a system that can generate
+evaluate the possible approaches. We aim to create a system that can generate
 the terrain under the users position on the fly, this generation needs to be
 reproducible despite the order in which the user interacts with the world. Most
 of all the approach used needs to be a fast as possible to avoid locking up of
@@ -295,12 +295,12 @@ experience.
 
 \item[Perlin Noise] Noise based generation is fast, at least compared to the other
 methods, and is entirely reproducible from any state. These two qualities make it
-perfect for our requirements. Noise can also be used on multiple dimensions, 
+perfect for present requirements. Noise can also be used on multiple dimensions, 
 allowing height maps to be generated as well as 3D density maps leading to very
 interesting realistic worlds.
 \end{description}
 
-Considering our requirements noised based generation is the best overall 
+Considering the requirements noised based generation is the best overall 
 approach,
 but as more complex worlds are create inspiration will come from other 
 techniques.\\

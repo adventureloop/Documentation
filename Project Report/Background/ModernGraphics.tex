@@ -31,7 +31,7 @@ OpenGL defines the outputs that should appear from given inputs to the system,
 the rest is a black box.\\
 
 OpenGL's functionality is based around a state machine, this machine needs to be
-configured by the program for each drawing call, but will preserve this state 
+configured by the programmer for each drawing call, but will preserve this state 
 unless otherwise changed. For drawing OpenGL is a very powerful rasteriser, its
 main operation being the processing of triangles in the form of vertexes into
 pixels on a final display. \\
@@ -113,8 +113,8 @@ coloured fragment to the display.
 \end{description}
 
 \subsection{Shaders}
-There are two points in the rasterisation pipeline that have hooks allow 
-customisation from the programmer. The first is during clip space transformation
+There are two points in the rasterisation pipeline that have hooks allowing
+customisation by the programmer. The first is during Clip Space transformation
 and the second is during Fragment Processing. To access the rasteriation pipeline
 small programs called shaders are used, these programs have access to the
 vertex data in the case of vertex shaders and access to the fragments created in
@@ -125,6 +125,7 @@ Language), GLSL contains extensions that make writing programs that use vectors
 and matrices very easy. Built in variables are also provided to allow easier
 implementation of shader programs. \\
 
+\lstset{caption={Vertex Shader}}
 \lstinputlisting{src/example.vsh}
 
 Inside the vertex shader variables called attributes can be defined that directly
