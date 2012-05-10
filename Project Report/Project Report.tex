@@ -4,7 +4,7 @@
 \usepackage{hyperref}
 \usepackage{color}
 \usepackage{wrapfig}
-
+\usepackage{url}
 \setlength{\parindent}{0pt}
 
 %Use the xetex font system along with system fonts
@@ -20,6 +20,8 @@
 \titleformat*{\section}{\Large\sectionfont}
 \titleformat*{\subsection}{\large\sectionfont}
 \titleformat*{\subsubsection}{\sectionfont}
+
+\urlstyle{same}
 
 %Configure source listing style
 \usepackage{listings}
@@ -63,6 +65,8 @@
 \fancyfoot[c]{\thepage}
 %\fancyfoot[L]{\includegraphics{Images/FooterIsland.png}}% 
 
+\usepackage{cite}
+
 %Set line spacing
 
 \begin{document}
@@ -86,4 +90,10 @@
 
 \listoffigures
 \lstlistoflistings
+
+\bibliography{bibliography}{}
+\bibliographystyle{plain}
+
+\include{Appendix/AppendixChapter}
+
 \end{document}

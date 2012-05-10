@@ -31,7 +31,8 @@ techniques are the main mechanic in the game Nethack, used to generate winding
 dungeons that are different very time.\\
 
 \subsubsection*{Mid Point Displacement}
-Midpoint displacement, or the diamond squared algorithm works on a 2D grid and uses
+Mid Point displacement\cite{MPD}, or the diamond squared algorithm works on a 2D grid
+and uses
 multiple passes which vary the terrain levels in each to generate its landscape.\\
 
 \begin{figure}[h!]
@@ -94,7 +95,7 @@ level of values.\\
 		\includegraphics[width=0.25\textwidth]{Images/grid.png}
 	\end{center}
 \end{wrapfigure}
-The fault algorithm works on a grid similar to the MDP algorithm. The grid again can
+The Fault algorithm\cite{Fault} works on a grid similar to the MDP algorithm. The grid again can
 be initialised to random or preset values. Fault is a very simple algorithm and with
 a large number of iterations can create very interesting terrain. \\
 
@@ -135,12 +136,14 @@ is a smooth scaling between transitions within the noise.\\
 
 \subsubsection*{Perlin Noise}
 The type of noise we are going to use for generation is called Perlin Noise. 
-Perlin Noise was developed for use in the movie Tron by Ken Perlin, he wanted to
+Perlin Noise was developed for use in the movie Tron by Ken Perlin\cite{KenPerlin}
+, he wanted to
 break up the un realistically clean lines and shapes that the graphics system was
 producing. Perlin Noise is very frequently used for generation in games and is 
 even built into some programming languages.\\
 
-Perlin Noise can be generated in by number of dimensions, but we will look at the
+Perlin Noise\cite{PerlinFAQ} can be generated in by number of dimensions, 
+but we will look at the
 2D case to describe an approximation of how we derive the value for a given 
 (x,y).\\
 \begin{wrapfigure}{l}{0.25\textwidth}

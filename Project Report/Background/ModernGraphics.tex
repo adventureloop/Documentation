@@ -13,11 +13,11 @@ processors that can be applied to many different data calculation intensive task
 including the creation of complex, interesting and realistic 3D graphics.\\
 
 \subsection{OpenGL Overview} 
-Access to the underlying graphics hardware is mitigated through the use of libraries
-.These 
-libraries have grown up with the graphics cards and together have pushed the 
+Access to the underlying graphics hardware is mitigated through the use of libraries.
+These libraries have grown up with the graphics cards and together have pushed the 
 limits of the hardware. Two competing standards have developed over time, Direct
-3D from Microsoft and the OpenGL specification for the ARB group. Direct 3D is 
+3D \cite{DirectX}from Microsoft and the OpenGL\cite{OpenGL} specification 
+from the ARB group. Direct 3D is 
 limited to run only on Microsoft platforms such as window and the xbox console,
 but OpenGL is a standard that can be and is implemented everywhere. Due to this
 Direct 3D has been discounted as an option for this project and instead OpenGL
@@ -75,12 +75,13 @@ the most common is to take vertexes three at a time and use them to create
 triangles.\\
 
 Once the vertex data for all the triangles in a mesh have been passed to OpenGL,
-the information will be processed through the rasterisation pipeline. This 
+the information will be processed through the rasterization pipeline
+\cite{rasterization}. This 
 pipeline has several discrete stages, each of which transforms the vertex data 
 in some way until the final stage is reached and a colour can be decided for the
 pixels in the window.\\
 
-The rough stages for the rasterisation pipeline are:
+The rough stages for the rasterization pipeline are:
 \begin{description}
 \item[Clip Space Transformation] The first phase of the rasterisation process
 is transformation of vertexes into clip space. Clip space defines a region in 
